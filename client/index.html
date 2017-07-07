@@ -45,11 +45,12 @@
     <br>
     
     <div id="negociacoesView"></div>
-    
+    <script src="js/app/services/ProxyFactory.js"></script>
     <script src="js/app/models/Negociacao.js"></script>
     <script src="js/app/controllers/NegociacaoController.js"></script>
     <script src="js/app/helpers/DateHelper.js"></script>
     <script src="js/app/models/ListaNegociacoes.js"></script>
+    <script src="js/app/helpers/Bind.js"></script>
     <script src="js/app/views/View.js"></script>
     <script src="js/app/views/NegociacoesView.js"></script>
     <script src="js/app/models/Mensagem.js"></script>
@@ -57,5 +58,31 @@
     <script>
         let negociacaoController = new NegociacaoController();
     </script>
+    <script>
+        class Funcionario {
+
+            constructor(email) {
+                this._email = email;
+            }
+
+            get email() {
+                return this._email;
+            }
+
+            set email(email) {
+                this._email = email;
+            }
+        }
+
+        let funcionario = new Proxy(new Funcionario('abc@abc.com') , {
+            get(target, prop, receiver) {
+                console.log("There is a trap here");
+                return "***"+Reflect.get(target,prop,receiver) + "***";
+            }
+        });
+
+        console.log(funcionario.email)
+    </script>
+    
 </body>
 </html>
